@@ -31,13 +31,13 @@
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.example.sclad.ui.gallery.GalleryFragment"
+        android:name="com.example.sclad.ui.alldevices.ListDevicesFragment"
         android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_list_all_devices" />
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="com.example.sclad.ui.slideshow.SlideshowFragment"
+        android:name="com.example.sclad.ui.faultyDevices.FaultyItemsFragment"
         android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_faulty_devices" />
 </navigation>

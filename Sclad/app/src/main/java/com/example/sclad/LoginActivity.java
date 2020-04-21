@@ -1,9 +1,7 @@
 package com.example.sclad;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.util.Log;
 import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,8 +9,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.sclad.Utils.BasicAuthInterceptor;
 import okhttp3.*;
@@ -20,25 +16,25 @@ import okhttp3.*;
 import java.io.IOException;
 
 public class LoginActivity extends AppCompatActivity {
-    private EditText   usernameInput;
-    private EditText  passwordInput;
+    private EditText usernameInput;
+    private EditText passwordInput;
     private EditText error;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_page);
-        //error=(TextView)findViewById(R.id.error_msg);
         configureLoginBtn();
     }
-    public void show_error_dialog()
-    {
+
+    public void showErrorDialog() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (!isFinishing()){
+                if (!isFinishing()) {
                     new AlertDialog.Builder(LoginActivity.this)
                             .setTitle("Bad Login!")
-                            .setMessage("Incorret Username or Password")
+                            .setMessage("Incorrect Username or Password")
                             .setCancelable(false)
                             .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                                 @Override
@@ -70,12 +66,13 @@ public class LoginActivity extends AppCompatActivity {
                         System.err.println("call with url " + url + " failed.");
                         e.printStackTrace();
                     }
+
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
                         if (response.body() != null) {
                             System.out.println("response: " + response.body().string());
                             if (response.code() == 401)
-                                show_error_dialog();
+                                showErrorDialog();
                             else
                                 startActivity(new Intent(LoginActivity.this,
                                         DashBoardActivity.class).putExtra("USERNAME", usernameInput.getText().toString()));

@@ -35,6 +35,11 @@
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_list_all_devices" />
 
+    <fragment android:id="@+id/nav_reorder_item"
+              android:name="com.example.sclad.ReorderItemFragment"
+              android:label="Reorder Item"
+              tools:layout="@layout/fragment_reorder_item" />
+
     <fragment
         android:id="@+id/nav_slideshow"
         android:name="com.example.sclad.ui.faultyDevices.FaultyItemsFragment"

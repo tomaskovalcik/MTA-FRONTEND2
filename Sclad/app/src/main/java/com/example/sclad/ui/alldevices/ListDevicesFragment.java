@@ -89,7 +89,7 @@ public class ListDevicesFragment extends Fragment {
                     productCode = json_data.getString("productCode");
                     quantity = json_data.getInt("quantity");
                     quantityThreshold = json_data.getInt("quantityThreshold");
-                    isReordered = json_data.getBoolean("isReordered");
+                    isReordered = json_data.optBoolean("isReordered");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -13,9 +13,11 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.sclad.Utils.BasicAuthInterceptor;
+import com.example.sclad.Utils.SecurityContextHolder;
 import okhttp3.*;
 
 import java.io.IOException;
+import java.security.Security;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText usernameInput;
@@ -78,11 +80,15 @@ public class LoginActivity extends AppCompatActivity {
                     public void onResponse(Call call, Response response) throws IOException {
                         if (response.body() != null) {
                             System.out.println("response: " + response.body().string());
-                            if (response.code() == 401)
+                            if (response.code() == 401) {
                                 showErrorDialog();
-                            else
+                            } else {
+                                SecurityContextHolder.username = usernameInput.getText().toString();
+                                SecurityContextHolder.password = passwordInput.getText().toString();
                                 startActivity(new Intent(LoginActivity.this,
                                         DashBoardActivity.class).putExtra("USERNAME", usernameInput.getText().toString()));
+
+                            }
                         } else {
                             System.err.println("Null response body");
                         }

@@ -6,14 +6,20 @@
     </shared>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f5847c6c-d977-4392-b17e-b92b9b928599" name="Default Changelist" comment="login screen proper justification of text fields, disable login btn by default">
-      <change afterPath="$PROJECT_DIR$/Sclad/app/src/main/java/com/example/sclad/ReorderItemFragment.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sclad/app/src/main/res/layout/fragment_reorder_item.xml" afterDir="false" />
+    <list default="true" id="f5847c6c-d977-4392-b17e-b92b9b928599" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Sclad/app/src/main/java/com/example/sclad/Utils/JsonHelper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sclad/app/src/main/java/com/example/sclad/Utils/SecurityContextHolder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sclad/app/src/main/java/com/example/sclad/models/DeviceType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sclad/app/src/main/java/com/example/sclad/models/EnumHelper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sclad/app/src/main/java/com/example/sclad/models/RestockOrder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Sclad/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/Sclad/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Sclad/app/src/main/java/com/example/sclad/DashBoardActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Sclad/app/src/main/java/com/example/sclad/DashBoardActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Sclad/app/src/main/java/com/example/sclad/ui/alldevices/ListDevicesFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/Sclad/app/src/main/java/com/example/sclad/ui/alldevices/ListDevicesFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sclad/app/src/main/java/com/example/sclad/LoginActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Sclad/app/src/main/java/com/example/sclad/LoginActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sclad/app/src/main/java/com/example/sclad/ReorderItemFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/Sclad/app/src/main/java/com/example/sclad/ui/ReorderItemFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sclad/app/src/main/java/com/example/sclad/models/Device.java" beforeDir="false" afterPath="$PROJECT_DIR$/Sclad/app/src/main/java/com/example/sclad/models/Device.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sclad/app/src/main/res/layout/fragment_reorder_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Sclad/app/src/main/res/layout/fragment_reorder_item.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Sclad/app/src/main/res/navigation/mobile_navigation.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Sclad/app/src/main/res/navigation/mobile_navigation.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sclad/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Sclad/app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,6 +31,13 @@
     <projectState path="$PROJECT_DIR$/Sclad">
       <ProjectState />
     </projectState>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -79,7 +92,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1587224186691</updated>
-      <workItem from="1587550156611" duration="3364000" />
+      <workItem from="1587550156611" duration="23055000" />
     </task>
     <task id="LOCAL-00001" summary="login screen proper justification of text fields, disable login btn by default">
       <created>1587544224602</created>
@@ -95,7 +108,14 @@
       <option name="project" value="LOCAL" />
       <updated>1587549938975</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="reorder items navigation, devices isReordered flag fix">
+      <created>1587553637591</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1587553637592</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -116,70 +136,91 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="login screen proper justification of text fields, disable login btn by default" />
     <MESSAGE value="devices detail fix, added required menu items" />
-    <option name="LAST_COMMIT_MESSAGE" value="devices detail fix, added required menu items" />
+    <MESSAGE value="reorder items navigation, devices isReordered flag fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="reorder items navigation, devices isReordered flag fix" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="2664" y="301" key="#xdebugger.evaluate" timestamp="1587552769714">
+    <state x="2714" y="240" width="374" height="633" key="#com.intellij.ide.util.MemberChooser" timestamp="1587576848185">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2664" y="301" key="#xdebugger.evaluate/1920.0.1920.1080/52.27.1868.1053@1920.0.1920.1080" timestamp="1587552769714" />
-    <state x="2763" y="346" width="276" height="421" key="AndroidCreateXmlResourceDialog" timestamp="1587545873989">
+    <state x="2714" y="240" width="374" height="633" key="#com.intellij.ide.util.MemberChooser/1920.0.1920.1080/52.27.1868.1053@1920.0.1920.1080" timestamp="1587576848185" />
+    <state x="2638" y="346" width="525" height="421" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1587565938820">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2763" y="346" width="276" height="421" key="AndroidCreateXmlResourceDialog/1920.0.1920.1080/52.27.1868.1053@1920.0.1920.1080" timestamp="1587545873989" />
-    <state x="2504" y="125" width="794" height="863" key="CommitChangelistDialog2" timestamp="1587549938909">
+    <state x="2638" y="346" width="525" height="421" key="#com.intellij.ide.util.TreeClassChooserDialog/1920.0.1920.1080/52.27.1868.1053@1920.0.1920.1080" timestamp="1587565938820" />
+    <state x="1972" y="27" width="1069" height="1053" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1587572339943">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2504" y="125" width="794" height="863" key="CommitChangelistDialog2/1920.0.1920.1080/52.27.1868.1053@1920.0.1920.1080" timestamp="1587549938909" />
+    <state x="1972" y="27" width="1069" height="1053" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/1920.0.1920.1080/52.27.1868.1053@1920.0.1920.1080" timestamp="1587572339943" />
+    <state x="2664" y="301" key="#xdebugger.evaluate" timestamp="1587569971680">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2664" y="301" key="#xdebugger.evaluate/1920.0.1920.1080/52.27.1868.1053@1920.0.1920.1080" timestamp="1587569971680" />
+    <state x="2763" y="346" width="276" height="449" key="AndroidCreateXmlResourceDialog" timestamp="1587565875568">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2763" y="346" width="276" height="449" key="AndroidCreateXmlResourceDialog/1920.0.1920.1080/52.27.1868.1053@1920.0.1920.1080" timestamp="1587565875568" />
+    <state x="2504" y="125" width="794" height="863" key="CommitChangelistDialog2" timestamp="1587553637367">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2504" y="125" width="794" height="863" key="CommitChangelistDialog2/1920.0.1920.1080/52.27.1868.1053@1920.0.1920.1080" timestamp="1587553637367" />
     <state x="2128" y="110" width="1536" height="901" key="DiffContextDialog" timestamp="1587549805471">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2128" y="110" width="1536" height="901" key="DiffContextDialog/1920.0.1920.1080/52.27.1868.1053@1920.0.1920.1080" timestamp="1587549805471" />
-    <state width="1826" height="248" key="GridCell.Tab.0.bottom" timestamp="1587553520919">
+    <state width="1826" height="333" key="GridCell.Tab.0.bottom" timestamp="1587577692225">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state width="1826" height="248" key="GridCell.Tab.0.bottom/1920.0.1920.1080/52.27.1868.1053@1920.0.1920.1080" timestamp="1587553520919" />
-    <state width="1826" height="248" key="GridCell.Tab.0.center" timestamp="1587553520919">
+    <state width="1826" height="333" key="GridCell.Tab.0.bottom/1920.0.1920.1080/52.27.1868.1053@1920.0.1920.1080" timestamp="1587577692225" />
+    <state width="1826" height="333" key="GridCell.Tab.0.center" timestamp="1587577692225">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state width="1826" height="248" key="GridCell.Tab.0.center/1920.0.1920.1080/52.27.1868.1053@1920.0.1920.1080" timestamp="1587553520919" />
-    <state width="1826" height="248" key="GridCell.Tab.0.left" timestamp="1587553520919">
+    <state width="1826" height="333" key="GridCell.Tab.0.center/1920.0.1920.1080/52.27.1868.1053@1920.0.1920.1080" timestamp="1587577692225" />
+    <state width="1826" height="333" key="GridCell.Tab.0.left" timestamp="1587577692225">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state width="1826" height="248" key="GridCell.Tab.0.left/1920.0.1920.1080/52.27.1868.1053@1920.0.1920.1080" timestamp="1587553520919" />
-    <state width="1826" height="248" key="GridCell.Tab.0.right" timestamp="1587553520919">
+    <state width="1826" height="333" key="GridCell.Tab.0.left/1920.0.1920.1080/52.27.1868.1053@1920.0.1920.1080" timestamp="1587577692225" />
+    <state width="1826" height="333" key="GridCell.Tab.0.right" timestamp="1587577692225">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state width="1826" height="248" key="GridCell.Tab.0.right/1920.0.1920.1080/52.27.1868.1053@1920.0.1920.1080" timestamp="1587553520919" />
-    <state width="1826" height="248" key="GridCell.Tab.1.bottom" timestamp="1587553520919">
+    <state width="1826" height="333" key="GridCell.Tab.0.right/1920.0.1920.1080/52.27.1868.1053@1920.0.1920.1080" timestamp="1587577692225" />
+    <state width="1826" height="333" key="GridCell.Tab.1.bottom" timestamp="1587577592320">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state width="1826" height="248" key="GridCell.Tab.1.bottom/1920.0.1920.1080/52.27.1868.1053@1920.0.1920.1080" timestamp="1587553520919" />
-    <state width="1826" height="248" key="GridCell.Tab.1.center" timestamp="1587553520919">
+    <state width="1826" height="333" key="GridCell.Tab.1.bottom/1920.0.1920.1080/52.27.1868.1053@1920.0.1920.1080" timestamp="1587577592320" />
+    <state width="1826" height="333" key="GridCell.Tab.1.center" timestamp="1587577592320">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state width="1826" height="248" key="GridCell.Tab.1.center/1920.0.1920.1080/52.27.1868.1053@1920.0.1920.1080" timestamp="1587553520919" />
-    <state width="1826" height="248" key="GridCell.Tab.1.left" timestamp="1587553520919">
+    <state width="1826" height="333" key="GridCell.Tab.1.center/1920.0.1920.1080/52.27.1868.1053@1920.0.1920.1080" timestamp="1587577592320" />
+    <state width="1826" height="333" key="GridCell.Tab.1.left" timestamp="1587577592320">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state width="1826" height="248" key="GridCell.Tab.1.left/1920.0.1920.1080/52.27.1868.1053@1920.0.1920.1080" timestamp="1587553520919" />
-    <state width="1826" height="248" key="GridCell.Tab.1.right" timestamp="1587553520919">
+    <state width="1826" height="333" key="GridCell.Tab.1.left/1920.0.1920.1080/52.27.1868.1053@1920.0.1920.1080" timestamp="1587577592320" />
+    <state width="1826" height="333" key="GridCell.Tab.1.right" timestamp="1587577592320">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state width="1826" height="248" key="GridCell.Tab.1.right/1920.0.1920.1080/52.27.1868.1053@1920.0.1920.1080" timestamp="1587553520919" />
+    <state width="1826" height="333" key="GridCell.Tab.1.right/1920.0.1920.1080/52.27.1868.1053@1920.0.1920.1080" timestamp="1587577592320" />
     <state x="2671" y="259" width="460" height="595" key="RollbackChangesDialog" timestamp="1587543157119">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2671" y="259" width="460" height="595" key="RollbackChangesDialog/1920.0.1920.1080/52.27.1868.1053@1920.0.1920.1080" timestamp="1587543157119" />
-    <state x="2464" y="255" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1587549940033">
+    <state x="2464" y="255" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1587553790274">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2464" y="255" width="800" height="535" key="Vcs.Push.Dialog.v2/1920.0.1920.1080/52.27.1868.1053@1920.0.1920.1080" timestamp="1587549940033" />
+    <state x="2464" y="255" width="800" height="535" key="Vcs.Push.Dialog.v2/1920.0.1920.1080/52.27.1868.1053@1920.0.1920.1080" timestamp="1587553790274" />
     <state x="581" y="276" width="800" height="535" key="Vcs.Push.Dialog.v2/1920.0.1920.1080/52.27.1868.1053@52.27.1868.1053" timestamp="1587541814664" />
     <state x="2555" y="312" width="621" height="424" key="git4idea.merge.GitPullDialog" timestamp="1587543162535">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2555" y="312" key="git4idea.merge.GitPullDialog/1920.0.1920.1080/52.27.1868.1053@1920.0.1920.1080" timestamp="1587543162535" />
     <state x="670" y="331" width="621" height="424" key="git4idea.merge.GitPullDialog/1920.0.1920.1080/52.27.1868.1053@52.27.1868.1053" timestamp="1587541821702" />
+    <state x="2610" y="314" width="582" height="486" key="refactoring.ChangeSignatureDialog" timestamp="1587572432676">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2610" y="314" width="582" height="486" key="refactoring.ChangeSignatureDialog/1920.0.1920.1080/52.27.1868.1053@1920.0.1920.1080" timestamp="1587572432676" />
+    <state x="2569" y="259" width="672" height="678" key="search.everywhere.popup" timestamp="1587572611126">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2569" y="259" width="672" height="678" key="search.everywhere.popup/1920.0.1920.1080/52.27.1868.1053@1920.0.1920.1080" timestamp="1587572611126" />
   </component>
 </project>

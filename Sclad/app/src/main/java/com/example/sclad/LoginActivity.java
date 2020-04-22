@@ -2,6 +2,8 @@ package com.example.sclad;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,13 +20,20 @@ import java.io.IOException;
 public class LoginActivity extends AppCompatActivity {
     private EditText usernameInput;
     private EditText passwordInput;
-    private EditText error;
+    private Button loginBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_page);
         configureLoginBtn();
+        //Initialize username/password text fields, disable login button by default
+        usernameInput = findViewById(R.id.username_input);
+        passwordInput = findViewById(R.id.password_input);
+        usernameInput.addTextChangedListener(textWatcher);
+        passwordInput.addTextChangedListener(textWatcher);
+        loginBtn = findViewById(R.id.login_btn);
+        loginBtn.setEnabled(false);
     }
 
     public void showErrorDialog() {
@@ -48,8 +57,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private void configureLoginBtn() {
         Button loginBtn = findViewById(R.id.login_btn);
-        usernameInput = findViewById(R.id.username_input);
-        passwordInput = findViewById(R.id.password_input);
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,4 +92,23 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+    private TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            String input = usernameInput.getText().toString().trim();
+            String passInput = passwordInput.getText().toString().trim();
+            loginBtn.setEnabled(!input.isEmpty() && !passInput.isEmpty());
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
 }

@@ -1,53 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   android:visibility="visible"
+                                                   android:background="@color/cardview_light_background"
+>
 
 
     <TextView
-        android:id="@+id/productName"
-        android:layout_width="206dp"
-        android:layout_height="39dp"
-        android:layout_marginTop="180dp"
-        android:layout_marginEnd="108dp"
-        android:layout_weight="1"
-        android:text="@string/textview"
-        app:layout_constraintBottom_toTopOf="@+id/productCode"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+            android:id="@+id/productName"
+            android:layout_width="206dp"
+            android:layout_height="39dp"
+            android:layout_marginTop="180dp"
+            android:layout_marginEnd="108dp"
+            android:layout_weight="1"
+            android:text="@string/textview"
+            app:layout_constraintBottom_toTopOf="@+id/productCode"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"/>
 
     <TextView
-        android:id="@+id/productCode"
-        android:layout_width="203dp"
-        android:layout_height="36dp"
-        android:layout_marginEnd="108dp"
-        android:layout_marginBottom="56dp"
-        android:layout_weight="1"
-        android:text="@string/textview"
-        app:layout_constraintBottom_toTopOf="@+id/quantity"
-        app:layout_constraintEnd_toEndOf="parent" />
+            android:id="@+id/productCode"
+            android:layout_width="203dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="108dp"
+            android:layout_marginBottom="56dp"
+            android:layout_weight="1"
+            android:text="@string/textview"
+            app:layout_constraintBottom_toTopOf="@+id/quantity"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
-        android:id="@+id/quantity"
-        android:layout_width="210dp"
-        android:layout_height="41dp"
-        android:layout_marginEnd="104dp"
-        android:layout_marginBottom="44dp"
-        android:text="@string/textview"
-        app:layout_constraintBottom_toTopOf="@+id/threshold"
-        app:layout_constraintEnd_toEndOf="parent" />
+            android:id="@+id/quantity"
+            android:layout_width="210dp"
+            android:layout_height="41dp"
+            android:layout_marginEnd="104dp"
+            android:layout_marginBottom="44dp"
+            android:text="@string/textview"
+            app:layout_constraintBottom_toTopOf="@+id/threshold"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
-        android:id="@+id/threshold"
-        android:layout_width="212dp"
-        android:layout_height="41dp"
-        android:layout_marginEnd="108dp"
-        android:layout_marginBottom="256dp"
-        android:text="@string/textview"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+            android:id="@+id/threshold"
+            android:layout_width="212dp"
+            android:layout_height="41dp"
+            android:layout_marginEnd="108dp"
+            android:layout_marginBottom="256dp"
+            android:text="@string/textview"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

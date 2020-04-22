@@ -32,20 +32,14 @@ import okhttp3.Response;
 
 public class ListDevicesFragment extends Fragment {
 
-    String jsonData;
     ArrayList<Device> items = new ArrayList<Device>();
     ListView listView;
     View view;
 
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.fragment_list_all_devices, container, false);
-
-
         new AsyncTaskLoadListOfDevices().execute();
-
         return view;
     }
 
@@ -121,7 +115,6 @@ public class ListDevicesFragment extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Device device = (Device) parent.getAdapter().getItem(position);
-                    System.out.println(device.toString());
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("device", device);
 

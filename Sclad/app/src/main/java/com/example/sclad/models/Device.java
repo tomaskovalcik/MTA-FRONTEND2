@@ -6,8 +6,6 @@ import android.os.Parcelable;
 import org.jetbrains.annotations.NotNull;
 
 public class Device implements Parcelable {
-
-
     private String productName;
     private String productCode;
     private Integer quantity;

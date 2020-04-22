@@ -19,9 +19,10 @@
     <string name="view_stored_items">View Stored Items</string>
     <string name="log_faulty_item">Log Faulty Item</string>
     <string name="logout">Logout</string>
-    <string name="product_name">product name</string>
+    <string name="product_name">Product name</string>
     <string name="textview">TextView</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="reorder_item">Reorder item</string>
+    <string name="fault_reports_list">Fault reports list</string>
 </resources>

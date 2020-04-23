@@ -1,8 +1,6 @@
 package com.example.sclad.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
-<<<<<<< HEAD
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +15,6 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-=======
-import android.view.*;
-import android.widget.*;
-import androidx.fragment.app.Fragment;
-import com.example.sclad.DashBoardActivity;
->>>>>>> 47e3b4f702032d1de700d3eca0915f31a700eba6
 import com.example.sclad.R;
 import com.example.sclad.Utils.BasicAuthInterceptor;
 import com.example.sclad.Utils.JsonHelper;
@@ -55,10 +47,7 @@ public class ReorderItemFragment extends Fragment {
     private SeekBar quantitySeekBar;
     private Switch sendNotificationSwitch;
     private TextView quantityTextView;
-    private TextView selectedProductQuantity;
     private Button submitBtn;
-
-    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     public ReorderItemFragment() {
         // Required empty public constructor
@@ -88,44 +77,7 @@ public class ReorderItemFragment extends Fragment {
         this.submitBtn = view.findViewById(R.id.submitBtn);
         this.quantityTextView = view.findViewById(R.id.quantityTextView);
         this.quantityTextView.setText(Integer.toString(this.quantitySeekBar.getProgress()));
-        this.selectedProductQuantity = view.findViewById(R.id.selectedProductQuantity);
 
-        productNameInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!productNameInput.getText().toString().isEmpty()) {
-                    String productName = productNameInput.getText().toString();
-                    OkHttpClient client = new OkHttpClient.Builder()
-                            .addInterceptor(new BasicAuthInterceptor(SecurityContextHolder.username,
-                                    SecurityContextHolder.password)).build();
-                    final String url = "http://10.0.2.2:8080/api/device/getDeviceByProductName/" + productName;
-                    Request request = new Request.Builder().url(url).build();
-                    client.newCall(request).enqueue(new Callback() {
-                        @Override
-                        public void onFailure(Call call, IOException e) {
-                            // do nothing
-                        }
-
-                        @Override
-                        public void onResponse(Call call, Response response) throws IOException {
-                            Response httpResponse = response;
-                            ResponseBody body = response.body();
-                            if (httpResponse.code() == 200 && body != null) {
-                                Device device = objectMapper.readValue(body.string(), Device.class);
-                                String returnString = "Product quantity: " + device.getQuantity();
-                                if (device.getReordered()) {
-                                    returnString = returnString + " | Is reordered. ";
-                                } else {
-                                    returnString = returnString + " | Is not reordered. ";
-                                }
-                                String finalReturnString = returnString;
-                                getActivity().runOnUiThread(() -> selectedProductQuantity.setText(finalReturnString));
-                            }
-                        }
-                    });
-                }
-            }
-        });
         quantitySeekBar.setOnSeekBarChangeListener(onChangeListener);
         submitBtn.setOnClickListener(onClickListener);
         return view;
@@ -136,11 +88,6 @@ public class ReorderItemFragment extends Fragment {
         String productName = productNameInput.getText().toString();
         Boolean sendNotification = sendNotificationSwitch.isChecked();
         Integer quantity = quantitySeekBar.getProgress();
-<<<<<<< HEAD
-=======
-        //TODO category check?
-        String category = categoryDropdown.getSelectedItem().toString();
->>>>>>> 47e3b4f702032d1de700d3eca0915f31a700eba6
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(new BasicAuthInterceptor(SecurityContextHolder.username,
                         SecurityContextHolder.password)).build();
@@ -164,7 +111,7 @@ public class ReorderItemFragment extends Fragment {
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast t = Toast.makeText(getContext(), "Device with the selected category does not exists!.", Toast.LENGTH_SHORT);
+                                    Toast t = Toast.makeText(getContext(), "Device with the selected category does not exist!.", Toast.LENGTH_SHORT);
                                     t.show();
                                 }
                             });
@@ -186,11 +133,16 @@ public class ReorderItemFragment extends Fragment {
                             public void run() {
                                 Toast t = Toast.makeText(getContext(), "Created restock order for device.", Toast.LENGTH_SHORT);
                                 t.show();
-                                startActivity(new Intent(getActivity(),
-                                        DashBoardActivity.class).putExtra("USERNAME", SecurityContextHolder.username));
                             }
                         });
                     } else {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast t = Toast.makeText(getContext(), "Unknown device!", Toast.LENGTH_SHORT);
+                                t.show();
+                            }
+                        });
 
                     }
                 } catch (IOException e) {

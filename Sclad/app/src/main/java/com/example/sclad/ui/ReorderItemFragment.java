@@ -4,8 +4,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.SeekBar;
+import android.widget.Spinner;
+import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.fragment.app.Fragment;
+
 import com.example.sclad.R;
 import com.example.sclad.Utils.BasicAuthInterceptor;
 import com.example.sclad.Utils.JsonHelper;
@@ -15,13 +24,21 @@ import com.example.sclad.models.DeviceType;
 import com.example.sclad.models.EnumHelper;
 import com.example.sclad.models.RestockOrder;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import okhttp3.*;
+
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class ReorderItemFragment extends Fragment {
 
@@ -48,6 +65,8 @@ public class ReorderItemFragment extends Fragment {
         Spinner categoryDropdown = view.findViewById(R.id.categoryDropdown);
 
         List<String> categories = EnumHelper.getDevicesTitleList();
+
+        categories.add(0, "-"); // I could not find a better way to set a default value to spiner - reason for this is to simulate Accept test 6
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.support_simple_spinner_dropdown_item, categories);
         categoryDropdown.setAdapter(adapter);
 
@@ -69,7 +88,6 @@ public class ReorderItemFragment extends Fragment {
         String productName = productNameInput.getText().toString();
         Boolean sendNotification = sendNotificationSwitch.isChecked();
         Integer quantity = quantitySeekBar.getProgress();
-        String category = categoryDropdown.getSelectedItem().toString();
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(new BasicAuthInterceptor(SecurityContextHolder.username,
                         SecurityContextHolder.password)).build();
@@ -87,7 +105,18 @@ public class ReorderItemFragment extends Fragment {
                 try {
                     String responseBody = response.body().string();
                     if (responseBody != null && response.code() == 200) {
+                        String category = categoryDropdown.getSelectedItem().toString();
                         Device device = mapper.readValue(responseBody, Device.class);
+                        if (!category.equals(device.getDeviceType())) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast t = Toast.makeText(getContext(), "Device with the selected category does not exists!.", Toast.LENGTH_SHORT);
+                                    t.show();
+                                }
+                            });
+                            return;
+                        }
                         RestockOrder restockOrder = new RestockOrder();
                         restockOrder.setDevice(device);
                         restockOrder.setProductName(device.getProductName());
@@ -107,13 +136,7 @@ public class ReorderItemFragment extends Fragment {
                             }
                         });
                     } else {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast t = Toast.makeText(getContext(), "Unknown device.", Toast.LENGTH_SHORT);
-                                t.show();
-                            }
-                        });
+
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -124,6 +147,7 @@ public class ReorderItemFragment extends Fragment {
 
     public android.widget.SeekBar.OnSeekBarChangeListener onChangeListener = new SeekBar.OnSeekBarChangeListener() {
         int value = 0;
+
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             value = progress;

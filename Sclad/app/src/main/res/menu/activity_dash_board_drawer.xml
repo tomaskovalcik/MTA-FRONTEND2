@@ -4,26 +4,28 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
+        <item android:id="@+id/nav_dashboard"
+            android:title="@string/dashboard"
+            android:icon="@drawable/ic_launcher_background"/>
+
         <item android:title="@string/reorder_item"
             android:icon="@drawable/ic_launcher_background"
             android:id="@+id/nav_reorder_item"/>
-        <item android:id="@+id/nav_home"
-              android:icon="@drawable/ic_menu_camera"
-              android:title="@string/add_a_device" />
+
         <item android:title="@string/fault_reports_list"
             android:id="@+id/nav_faultReportList"
-            android:icon="@drawable/ic_menu_gallery"/>
+            android:icon="@drawable/ic_launcher_background"/>
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/view_stored_items" />
+            android:id="@+id/nav_view_stored_items"
+            android:title="@string/view_stored_items"
+            android:icon="@drawable/ic_launcher_background"/>
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/log_faulty_item" />
+            android:id="@+id/nav_log_faulty_item"
+            android:title="@string/log_faulty_item"
+            android:icon="@drawable/ic_launcher_background"/>
         <item
             android:id="@+id/nav_logout"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/logout" />
+            android:title="@string/logout"
+            android:icon="@drawable/ic_launcher_background"/>
     </group>
 </menu>

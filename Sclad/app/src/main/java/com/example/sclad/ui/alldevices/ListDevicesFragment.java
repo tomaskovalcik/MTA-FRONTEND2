@@ -1,6 +1,7 @@
 package com.example.sclad.ui.alldevices;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,15 +10,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.sclad.R;
 import com.example.sclad.Utils.BasicAuthInterceptor;
 import com.example.sclad.models.Device;
+import com.example.sclad.models.EnumHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,6 +26,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -39,7 +41,28 @@ public class ListDevicesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_list_all_devices, container, false);
-        new AsyncTaskLoadListOfDevices().execute();
+        Spinner categoryDropdown = view.findViewById(R.id.categoryList);
+
+        List<String> categories = EnumHelper.getDevicesTitleList();
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.support_simple_spinner_dropdown_item, categories);
+        categoryDropdown.setAdapter(adapter);
+        categories.add(0, "all");
+
+        categoryDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                items.clear();
+                String category = categoryDropdown.getSelectedItem().toString();
+                new AsyncTaskLoadListOfDevices().execute(category);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
         return view;
     }
 
@@ -47,12 +70,17 @@ public class ListDevicesFragment extends Fragment {
     private class AsyncTaskLoadListOfDevices extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... strings) {
+            String category = strings[0];
+            final String url;
             String json = null;
             OkHttpClient client = new OkHttpClient.Builder()
                     .addInterceptor(new BasicAuthInterceptor("admin",
                             "admin"))
                     .build();
-            final String url = "http://10.0.2.2:8080/api/device/all";
+            if (category == "all")
+                url = "http://10.0.2.2:8080/api/device/all";
+            else
+                url = "http://10.0.2.2:8080/api/device/listAllDevicesByType/" + category;
             Request request = new Request.Builder().url(url).build();
             Response response = null;
             try {
@@ -102,13 +130,12 @@ public class ListDevicesFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String json) {
-            listView = (ListView) view.findViewById(R.id.listview_stored_items);
+            listView = view.findViewById(R.id.listview_stored_items);
             ArrayAdapter<Device> listViewAdapter = new ArrayAdapter<Device>(
                     getActivity(),
                     android.R.layout.simple_list_item_1,
                     items
             );
-
             listView.setAdapter(listViewAdapter);
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -118,14 +145,18 @@ public class ListDevicesFragment extends Fragment {
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("device", device);
 
-                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//
+//                    DeviceDetailFragment deviceDetailFragment = new DeviceDetailFragment();
+//                    deviceDetailFragment.setArguments(bundle);
+//
+//                    fragmentTransaction.replace(R.id.nav_host_fragment, deviceDetailFragment);
+//                    fragmentTransaction.addToBackStack(null);
+//                    fragmentTransaction.commit();
 
-                    DeviceDetailFragment deviceDetailFragment = new DeviceDetailFragment();
-                    deviceDetailFragment.setArguments(bundle);
-
-                    fragmentTransaction.replace(R.id.nav_host_fragment, deviceDetailFragment);
-                    fragmentTransaction.commit();
+                    startActivity(new Intent(getActivity(),
+                            DetailActivity.class).putExtras(bundle));
 
                 }
             });

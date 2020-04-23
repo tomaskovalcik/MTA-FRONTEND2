@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_dashboard">
 
     <fragment
-        android:id="@+id/nav_home"
+        android:id="@+id/nav_dashboard"
         android:name="com.example.sclad.ui.home.HomeFragment"
-        android:label="@string/menu_home"
+        android:label="Dashboard"
         tools:layout="@layout/fragment_home">
 
         <action
@@ -22,7 +22,7 @@
         tools:layout="@layout/fragment_home_second">
         <action
             android:id="@+id/action_HomeSecondFragment_to_HomeFragment"
-            app:destination="@id/nav_home" />
+            app:destination="@id/nav_dashboard" />
 
         <argument
             android:name="myArg"
@@ -30,9 +30,9 @@
     </fragment>
 
     <fragment
-        android:id="@+id/nav_gallery"
+        android:id="@+id/nav_view_stored_items"
         android:name="com.example.sclad.ui.alldevices.ListDevicesFragment"
-        android:label="@string/menu_gallery"
+        android:label="List of Devices"
         tools:layout="@layout/fragment_list_all_devices" />
 
     <fragment android:id="@+id/nav_reorder_item"
@@ -41,8 +41,14 @@
               tools:layout="@layout/fragment_reorder_item" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
+        android:id="@+id/nav_log_faulty_item"
         android:name="com.example.sclad.ui.faultyDevices.FaultyItemsFragment"
         android:label="@string/menu_slideshow"
+        tools:layout="@layout/fragment_faulty_devices" />
+
+    <activity
+        android:id="@+id/nav_logout"
+        android:name="com.example.sclad.LoginActivity"
+        android:label="Logout"
         tools:layout="@layout/fragment_faulty_devices" />
 </navigation>

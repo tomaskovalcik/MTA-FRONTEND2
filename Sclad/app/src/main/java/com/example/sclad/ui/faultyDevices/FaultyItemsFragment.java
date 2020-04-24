@@ -20,19 +20,11 @@ public class FaultyItemsFragment extends Fragment {
 
 
 
-    private ListView lvHomePage;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_faulty_devices, container, false);
-        lvHomePage = (ListView) root.findViewById(R.id.frament_slideshow);
-        List<String> spinnerArray =  new ArrayList<String>();
-        spinnerArray.add("item1");
-        spinnerArray.add("item2");
-        Spinner spinner = (Spinner) root.findViewById(R.id.dropdown_category);
+        View view = inflater.inflate(R.layout.fragment_faulty_devices, container, false);
 
-        lvHomePage.setAdapter(new ArrayAdapter<String>(getActivity().getApplicationContext(),
-                android.R.layout.simple_list_item_1 , spinnerArray));
-
-        return root;
+        return view;
     }
 }

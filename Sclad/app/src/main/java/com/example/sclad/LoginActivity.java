@@ -86,8 +86,7 @@ public class LoginActivity extends AppCompatActivity {
                                 SecurityContextHolder.username = usernameInput.getText().toString();
                                 SecurityContextHolder.password = passwordInput.getText().toString();
                                 startActivity(new Intent(LoginActivity.this,
-                                        DashBoardActivity.class).putExtra("USERNAME", usernameInput.getText().toString()));
-
+                                        DashBoardActivity.class));
                             }
                         } else {
                             System.err.println("Null response body");

@@ -1,6 +1,7 @@
 package com.example.sclad.Utils;
 
 import com.example.sclad.models.Device;
+import com.example.sclad.models.FaultReport;
 import com.example.sclad.models.RestockOrder;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,6 +35,22 @@ public class JsonHelper {
             object.put("deviceType", device.getDeviceType());
             return object;
         } catch(JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static JSONObject toJson(FaultReport faultReport) {
+        JSONObject object = new JSONObject();
+        try {
+            object.put("deviceSerialNumber", faultReport.getDeviceSerialNumber());
+            object.put("productName", faultReport.getProductName());
+            object.put("dateOfDiscovery",faultReport.getDateOfDiscovery());
+            object.put("faultDescription",faultReport.getFaultDescription());
+            object.put("attachmentId", faultReport.getAttachmentId());
+            object.put("device", null);
+            return object;
+        } catch (JSONException e) {
             e.printStackTrace();
         }
         return null;

@@ -39,4 +39,6 @@
     <string name="product_serial_number">Product serial number</string>
     <string name="upload_file">Upload file</string>
     <string name="date_of_discovery">Date of discovery</string>
+    <string name="fault_description">Fault description</string>
+    <string name="pick_date_of_discovery">Pick date of discovery</string>
 </resources>

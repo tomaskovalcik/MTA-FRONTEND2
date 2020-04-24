@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frament_slideshow"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.faultyDevices.CreateFaultReportFragment">
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:id="@+id/frament_slideshow"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   tools:context=".ui.faultyDevices.CreateFaultReportFragment">
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="409dp"
             android:layout_height="729dp"
@@ -21,11 +21,10 @@
                 android:ems="10"
                 android:id="@+id/productNameText"
                 android:hint="@string/product_name" app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="23dp" app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="173dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="28dp"
                 app:layout_constraintTop_toBottomOf="@+id/textView14" android:autofillHints=""
-                app:layout_constraintHorizontal_bias="1.0"/>
+        />
         <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -33,40 +32,31 @@
                 android:gravity="start|top"
                 android:ems="10"
                 android:id="@+id/faultDescriptionText"
-                android:hint="@string/product_name" android:layout_marginTop="11dp"
-                app:layout_constraintTop_toBottomOf="@+id/dateOfDiscoveryPicker" app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="23dp" app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="173dp"
-                android:layout_marginBottom="22dp" app:layout_constraintBottom_toTopOf="@+id/uploadFileButton"/>
-        <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="date"
-                android:ems="10"
-                android:id="@+id/dateOfDiscoveryPicker"
-                android:hint="@string/date_of_discovery" android:layout_marginTop="2dp"
-                app:layout_constraintTop_toBottomOf="@+id/serialNumText" app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="23dp" app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="173dp" android:layout_marginBottom="19dp"
-                app:layout_constraintBottom_toTopOf="@+id/faultDescriptionText"/>
+                android:hint="@string/fault_description"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@+id/openDateDialog" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="24dp" app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="172dp" android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toTopOf="@+id/uploadFileButton"/>
         <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
                 android:ems="10"
                 android:id="@+id/serialNumText"
-                android:hint="@string/product_serial_number" android:layout_marginTop="16dp"
+                android:hint="@string/product_serial_number" android:layout_marginTop="20dp"
                 app:layout_constraintTop_toBottomOf="@+id/productNameText" app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="23dp" app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="173dp" android:layout_marginBottom="16dp"
-                app:layout_constraintBottom_toTopOf="@+id/dateOfDiscoveryPicker"/>
+                android:layout_marginStart="24dp"
+        />
         <Button
                 android:text="@string/submit"
-                android:layout_width="88dp"
-                android:layout_height="48dp" android:id="@+id/submitFaultReportButton"
-                app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="135dp"
+                android:layout_width="130dp"
+                android:layout_height="58dp" android:id="@+id/submitFaultReportButton"
+                app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="196dp"
                 app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="156dp"
-                app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="165dp"/>
+                app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="165dp"
+                app:layout_constraintHorizontal_bias="0.404" android:layout_marginTop="46dp"
+                app:layout_constraintTop_toBottomOf="@+id/uploadFileButton"/>
         <TextView
                 android:text="@string/file_a_fault_report"
                 android:layout_width="358dp"
@@ -76,16 +66,26 @@
                 android:layout_marginTop="71dp" app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="27dp"
                 app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="24dp"
-                android:layout_marginBottom="24dp" app:layout_constraintBottom_toTopOf="@+id/productNameText"/>
+                android:layout_marginBottom="24dp" app:layout_constraintBottom_toTopOf="@+id/productNameText"
+                app:layout_constraintHorizontal_bias="0.0"/>
         <Button
                 android:text="@string/upload_file"
                 android:layout_width="163dp"
                 android:layout_height="42dp" android:id="@+id/uploadFileButton"
-                android:layout_marginTop="13dp"
-                app:layout_constraintTop_toBottomOf="@+id/faultDescriptionText" app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="24dp" app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="222dp" android:layout_marginBottom="87dp"
-                app:layout_constraintBottom_toTopOf="@+id/submitFaultReportButton" android:background="#00BCD4"
-                android:textColor="#FFFFFF"/>
+                android:background="#00BCD4"
+                android:textColor="#FFFFFF"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintHorizontal_bias="0.097" app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="300dp"
+                android:layout_marginTop="18dp" app:layout_constraintTop_toBottomOf="@+id/faultDescriptionText"/>
+        <Button
+                android:text="@string/pick_date_of_discovery"
+                android:layout_width="215dp"
+                android:layout_height="49dp" android:id="@+id/openDateDialog"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@+id/serialNumText"
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="170dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

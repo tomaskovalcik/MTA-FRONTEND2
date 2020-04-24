@@ -41,14 +41,15 @@
             android:layout_marginEnd="116dp"
             android:text="@string/login"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/password_input"/>
+            app:layout_constraintTop_toBottomOf="@+id/password_input" android:background="#161FEC"
+            android:textColor="#FFFFFF"/>
     <ImageView
             android:id="@+id/imageView2"
-            android:layout_width="398dp"
-            android:layout_height="140dp"
+            android:layout_width="418dp"
+            android:layout_height="153dp"
             android:layout_marginTop="32dp"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/sclad_temp" android:layout_marginEnd="4dp"/>
+            app:srcCompat="@drawable/sclad_temp" app:layout_constraintStart_toStartOf="parent"
+    />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

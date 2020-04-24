@@ -1,5 +1,6 @@
 package com.example.sclad.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.sclad.DashBoardActivity;
 import com.example.sclad.R;
 import com.example.sclad.Utils.BasicAuthInterceptor;
 import com.example.sclad.Utils.JsonHelper;
@@ -25,20 +27,13 @@ import com.example.sclad.models.EnumHelper;
 import com.example.sclad.models.RestockOrder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 public class ReorderItemFragment extends Fragment {
 
@@ -48,6 +43,9 @@ public class ReorderItemFragment extends Fragment {
     private Switch sendNotificationSwitch;
     private TextView quantityTextView;
     private Button submitBtn;
+    private TextView selectedProductQuantity;
+
+    private static ObjectMapper objectMapper = new ObjectMapper();
 
     public ReorderItemFragment() {
         // Required empty public constructor
@@ -77,7 +75,41 @@ public class ReorderItemFragment extends Fragment {
         this.submitBtn = view.findViewById(R.id.submitBtn);
         this.quantityTextView = view.findViewById(R.id.quantityTextView);
         this.quantityTextView.setText(Integer.toString(this.quantitySeekBar.getProgress()));
+        this.selectedProductQuantity = view.findViewById(R.id.selectedProductQuantity);
 
+        productNameInput.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!productNameInput.getText().toString().isEmpty()) {
+                String productName = productNameInput.getText().toString();
+                OkHttpClient client = new OkHttpClient.Builder()
+                        .addInterceptor(new BasicAuthInterceptor(SecurityContextHolder.username,
+                                SecurityContextHolder.password)).build();
+                final String url = "http://10.0.2.2:8080/api/device/getDeviceByProductName/" + productName;
+                Request request = new Request.Builder().url(url).build();
+                client.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        // do nothing
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        Response httpResponse = response;
+                        ResponseBody body = response.body();
+                        if (httpResponse.code() == 200 && body != null) {
+                            Device device = objectMapper.readValue(body.string(), Device.class);
+                            String returnString = "Product quantity: " + device.getQuantity();
+                            if (device.getReordered()) {
+                                returnString = returnString + " | Is reordered. ";
+                            } else {
+                                returnString = returnString + " | Is not reordered. ";
+                            }
+                            String finalReturnString = returnString;
+                            getActivity().runOnUiThread(() -> selectedProductQuantity.setText(finalReturnString));
+                        }
+                    }
+                });
+            }
+        });
         quantitySeekBar.setOnSeekBarChangeListener(onChangeListener);
         submitBtn.setOnClickListener(onClickListener);
         return view;
@@ -133,13 +165,15 @@ public class ReorderItemFragment extends Fragment {
                             public void run() {
                                 Toast t = Toast.makeText(getContext(), "Created restock order for device.", Toast.LENGTH_SHORT);
                                 t.show();
+                                startActivity(new Intent(getActivity(),
+                                        DashBoardActivity.class).putExtra("USERNAME", SecurityContextHolder.username));
                             }
                         });
                     } else {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast t = Toast.makeText(getContext(), "Unknown device!", Toast.LENGTH_SHORT);
+                                Toast t = Toast.makeText(getContext(), "Unknown device.", Toast.LENGTH_SHORT);
                                 t.show();
                             }
                         });

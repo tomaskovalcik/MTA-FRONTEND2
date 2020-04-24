@@ -1,9 +1,6 @@
 package com.example.sclad.Utils;
 
-import okhttp3.Credentials;
-import okhttp3.Interceptor;
-import okhttp3.Request;
-import okhttp3.Response;
+import okhttp3.*;
 
 import java.io.IOException;
 
@@ -20,5 +17,11 @@ public class BasicAuthInterceptor implements Interceptor {
         Request request = chain.request();
         Request authenticatedRequest = request.newBuilder().header("Authorization", credentials).build();
         return chain.proceed(authenticatedRequest);
+    }
+
+    public static OkHttpClient buildClientWithInterceptor() {
+        return new OkHttpClient.Builder()
+                .addInterceptor(new BasicAuthInterceptor(SecurityContextHolder.username,
+                        SecurityContextHolder.password)).build();
     }
 }

@@ -1,6 +1,7 @@
 package com.example.sclad.ui.home;
 
 import android.annotation.SuppressLint;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,5 +34,14 @@ public class HomeFragment extends Fragment {
         txtOne.setText("Welcome " + SecurityContextHolder.username);
 
         return view;
+    }
+
+
+    private class AsyncTaskLoadListOfDevices extends AsyncTask<String, String, String> {
+
+        @Override
+        protected String doInBackground(String... strings) {
+            return null;
+        }
     }
 }

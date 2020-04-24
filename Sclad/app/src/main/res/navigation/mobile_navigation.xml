@@ -43,7 +43,7 @@
     <fragment
         android:id="@+id/nav_log_faulty_item"
         android:name="com.example.sclad.ui.faultyDevices.FaultyItemsFragment"
-        android:label="@string/menu_slideshow"
+        android:label="Log faulty item"
         tools:layout="@layout/fragment_faulty_devices" />
 
     <activity

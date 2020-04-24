@@ -11,17 +11,17 @@
         <item android:title="@string/reorder_item"
             android:icon="@drawable/ic_launcher_background"
             android:id="@+id/nav_reorder_item"/>
-
-        <item android:title="@string/fault_reports_list"
-            android:id="@+id/nav_faultReportList"
-            android:icon="@drawable/ic_launcher_background"/>
-        <item
-            android:id="@+id/nav_view_stored_items"
-            android:title="@string/view_stored_items"
-            android:icon="@drawable/ic_launcher_background"/>
         <item
             android:id="@+id/nav_log_faulty_item"
             android:title="@string/log_faulty_item"
+            android:icon="@drawable/ic_launcher_background"/>
+
+<!--        <item android:title="@string/fault_reports_list"-->
+<!--            android:id="@+id/nav_faultReportList"-->
+<!--            android:icon="@drawable/ic_launcher_background"/>-->
+        <item
+            android:id="@+id/nav_view_stored_items"
+            android:title="@string/view_stored_items"
             android:icon="@drawable/ic_launcher_background"/>
         <item
             android:id="@+id/nav_logout"

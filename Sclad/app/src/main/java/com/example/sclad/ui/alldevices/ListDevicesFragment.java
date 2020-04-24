@@ -79,7 +79,7 @@ public class ListDevicesFragment extends Fragment {
             if (category.equals("all"))
                 url = UrlHelper.resolveApiEndpoint("/api/device/all");
             else
-                url = UrlHelper.resolveApiEndpoint("api/device/listAllDevicesByType/" + category);
+                url = UrlHelper.resolveApiEndpoint("/api/device/listAllDevicesByType/" + category);
             Request request = new Request.Builder().url(url).build();
             Response response = null;
             try {

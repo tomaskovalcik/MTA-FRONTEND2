@@ -82,7 +82,7 @@ public class CreateFaultReportFragment extends Fragment {
             Request postRequest = new Request
                     .Builder()
                     .post(requestBody)
-                    .url(UrlHelper.resolveApiEndpoint("api/uploadedFile/create"))
+                    .url(UrlHelper.resolveApiEndpoint("/api/uploadedFile/create"))
                     .build();
             client.newCall(postRequest).enqueue(new Callback() {
                 @Override

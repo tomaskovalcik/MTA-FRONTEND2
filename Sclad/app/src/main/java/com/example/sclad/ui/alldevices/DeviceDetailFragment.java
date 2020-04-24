@@ -19,26 +19,18 @@ public class DeviceDetailFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_device_detail, container, false);
 
-
         Bundle bundle = getArguments();
-
         Device device = bundle.getParcelable("device");
 
-        TextView productName = (TextView) view.findViewById(R.id.productName);
-        TextView productCode = (TextView) view.findViewById(R.id.productCode);
-        TextView quantity = (TextView) view.findViewById(R.id.quantity);
-        //TextView isReordered = (TextView) view.findViewById(R.id.isReordered);
-        TextView quantityThrashold = (TextView) view.findViewById(R.id.threshold);
+        TextView productName = view.findViewById(R.id.productName);
+        TextView productCode = view.findViewById(R.id.productCode);
+        TextView quantity = view.findViewById(R.id.quantity);
+        TextView quantityThrashold = view.findViewById(R.id.threshold);
 
         productName.setText(device.getProductName());
         productCode.setText(device.getProductCode());
         quantity.setText(device.getQuantity().toString());
         quantityThrashold.setText(device.getQuantityThreshold().toString());
-        //isReordered.setText(device.getReordered().toString());
-
-
-
-
         return view;
     }
 }

@@ -18,9 +18,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.sclad.DashBoardActivity;
 import com.example.sclad.R;
-import com.example.sclad.Utils.BasicAuthInterceptor;
-import com.example.sclad.Utils.JsonHelper;
-import com.example.sclad.Utils.SecurityContextHolder;
+import com.example.sclad.Utils.*;
 import com.example.sclad.models.Device;
 import com.example.sclad.models.DeviceType;
 import com.example.sclad.models.EnumHelper;
@@ -64,7 +62,9 @@ public class ReorderItemFragment extends Fragment {
 
         List<String> categories = EnumHelper.getDevicesTitleList();
 
-        categories.add(0, "-"); // I could not find a better way to set a default value to spiner - reason for this is to simulate Accept test 6
+        // I could not find a better way to set a default value to spinner - reason for this is to simulate Accept test 6
+        // Ok then
+        categories.add(0, "-");
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.support_simple_spinner_dropdown_item, categories);
         categoryDropdown.setAdapter(adapter);
 
@@ -83,12 +83,12 @@ public class ReorderItemFragment extends Fragment {
                 OkHttpClient client = new OkHttpClient.Builder()
                         .addInterceptor(new BasicAuthInterceptor(SecurityContextHolder.username,
                                 SecurityContextHolder.password)).build();
-                final String url = "http://10.0.2.2:8080/api/device/getDeviceByProductName/" + productName;
-                Request request = new Request.Builder().url(url).build();
+                Request request = new Request.Builder()
+                        .url(UrlHelper.resolveApiEndpoint("/api/device/getDeviceByProductName" + productName)).build();
                 client.newCall(request).enqueue(new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
-                        // do nothing
+                        selectedProductQuantity.setText("Seems like device " + productNameInput.getText().toString() + " does not exist.");
                     }
 
                     @Override
@@ -123,9 +123,9 @@ public class ReorderItemFragment extends Fragment {
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(new BasicAuthInterceptor(SecurityContextHolder.username,
                         SecurityContextHolder.password)).build();
-        final String url = "http://10.0.2.2:8080/api/device/getDeviceByProductName/" + productName;
         ObjectMapper mapper = new ObjectMapper();
-        Request request = new Request.Builder().url(url).build();
+        Request request = new Request.Builder()
+                .url(UrlHelper.resolveApiEndpoint("/api/device/getDeviceByProductName/" + productName)).build();
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -140,13 +140,8 @@ public class ReorderItemFragment extends Fragment {
                         String category = categoryDropdown.getSelectedItem().toString();
                         Device device = mapper.readValue(responseBody, Device.class);
                         if (!category.equals(device.getDeviceType())) {
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast t = Toast.makeText(getContext(), "Device with the selected category does not exist!.", Toast.LENGTH_SHORT);
-                                    t.show();
-                                }
-                            });
+                            getActivity().runOnUiThread(() -> ToastDisplayHelper
+                                    .displayShortToastMessage("Device with the selected category does not exist!.", getActivity()));
                             return;
                         }
                         RestockOrder restockOrder = new RestockOrder();
@@ -157,17 +152,12 @@ public class ReorderItemFragment extends Fragment {
                         restockOrder.setDeviceType(DeviceType.valueOf(device.getDeviceType()));
                         JSONObject restockOrderJson = JsonHelper.toJson(restockOrder, device);
                         RequestBody body = RequestBody.create(MediaType.parse("application/json"), String.valueOf(restockOrderJson));
-                        String url = "http://10.0.2.2:8080/api/restockOrder/create";
-                        Request postRequest = new Request.Builder().post(body).url(url).build();
+                        Request postRequest = new Request.Builder().post(body).url(UrlHelper.resolveApiEndpoint("/api/restockOrder/create")).build();
                         client.newCall(postRequest).execute();
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast t = Toast.makeText(getContext(), "Created restock order for device.", Toast.LENGTH_SHORT);
-                                t.show();
-                                startActivity(new Intent(getActivity(),
-                                        DashBoardActivity.class).putExtra("USERNAME", SecurityContextHolder.username));
-                            }
+                        getActivity().runOnUiThread(() -> {
+                            ToastDisplayHelper.displayShortToastMessage("Created restock order for device " + device.getProductName(), getActivity());
+                            startActivity(new Intent(getActivity(),
+                                    DashBoardActivity.class).putExtra("USERNAME", SecurityContextHolder.username));
                         });
                     } else {
                         getActivity().runOnUiThread(new Runnable() {

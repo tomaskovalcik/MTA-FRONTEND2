@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.sclad.R;
 import com.example.sclad.Utils.BasicAuthInterceptor;
+import com.example.sclad.Utils.UrlHelper;
 import com.example.sclad.models.Device;
 import com.example.sclad.models.EnumHelper;
 
@@ -34,7 +35,7 @@ import okhttp3.Response;
 
 public class ListDevicesFragment extends Fragment {
 
-    ArrayList<Device> items = new ArrayList<Device>();
+    ArrayList<Device> items = new ArrayList<>();
     ListView listView;
     View view;
 
@@ -61,8 +62,6 @@ public class ListDevicesFragment extends Fragment {
 
             }
         });
-
-
         return view;
     }
 
@@ -77,10 +76,10 @@ public class ListDevicesFragment extends Fragment {
                     .addInterceptor(new BasicAuthInterceptor("admin",
                             "admin"))
                     .build();
-            if (category == "all")
-                url = "http://10.0.2.2:8080/api/device/all";
+            if (category.equals("all"))
+                url = UrlHelper.resolveApiEndpoint("/api/device/all");
             else
-                url = "http://10.0.2.2:8080/api/device/listAllDevicesByType/" + category;
+                url = UrlHelper.resolveApiEndpoint("api/device/listAllDevicesByType/" + category);
             Request request = new Request.Builder().url(url).build();
             Response response = null;
             try {
@@ -123,7 +122,6 @@ public class ListDevicesFragment extends Fragment {
                 }
 
                 items.add(new Device(productName, productCode, quantity, quantityThreshold, isReordered));
-
             }
             return json;
         }
@@ -131,34 +129,20 @@ public class ListDevicesFragment extends Fragment {
         @Override
         protected void onPostExecute(String json) {
             listView = view.findViewById(R.id.listview_stored_items);
-            ArrayAdapter<Device> listViewAdapter = new ArrayAdapter<Device>(
+            ArrayAdapter<Device> listViewAdapter = new ArrayAdapter<>(
                     getActivity(),
                     android.R.layout.simple_list_item_1,
                     items
             );
             listView.setAdapter(listViewAdapter);
+            listView.setOnItemClickListener((parent, view, position, id) -> {
+                Device device = (Device) parent.getAdapter().getItem(position);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("device", device);
 
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Device device = (Device) parent.getAdapter().getItem(position);
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("device", device);
+                startActivity(new Intent(getActivity(),
+                        DetailActivity.class).putExtras(bundle));
 
-//                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//
-//                    DeviceDetailFragment deviceDetailFragment = new DeviceDetailFragment();
-//                    deviceDetailFragment.setArguments(bundle);
-//
-//                    fragmentTransaction.replace(R.id.nav_host_fragment, deviceDetailFragment);
-//                    fragmentTransaction.addToBackStack(null);
-//                    fragmentTransaction.commit();
-
-                    startActivity(new Intent(getActivity(),
-                            DetailActivity.class).putExtras(bundle));
-
-                }
             });
         }
     }

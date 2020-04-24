@@ -10,10 +10,4 @@ public class ToastDisplayHelper {
         activity.runOnUiThread(() -> Toast.makeText(activity, message,
                 Toast.LENGTH_SHORT).show());
     }
-
-    public static void displayLongToastMessage(String message, Activity activity) {
-        activity.runOnUiThread(() -> Toast.makeText(activity, message,
-                Toast.LENGTH_SHORT).show());
-    }
-
 }

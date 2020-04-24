@@ -20,7 +20,6 @@ public class DetailActivity extends AppCompatActivity {
         TextView productName = findViewById(R.id.productName);
         TextView productCode = findViewById(R.id.productCode);
         TextView quantity = findViewById(R.id.quantity);
-        //TextView isReordered = (TextView) view.findViewById(R.id.isReordered);
         TextView quantityThrashold = findViewById(R.id.threshold);
 
         productName.setText(device.getProductName());

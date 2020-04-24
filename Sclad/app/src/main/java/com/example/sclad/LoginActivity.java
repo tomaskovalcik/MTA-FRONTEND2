@@ -1,7 +1,6 @@
 package com.example.sclad;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
@@ -9,15 +8,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 import com.example.sclad.Utils.BasicAuthInterceptor;
 import com.example.sclad.Utils.SecurityContextHolder;
+import com.example.sclad.Utils.ToastDisplayHelper;
+import com.example.sclad.Utils.UrlHelper;
 import okhttp3.*;
 
 import java.io.IOException;
-import java.security.Security;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText usernameInput;
@@ -39,70 +38,54 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void showErrorDialog() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (!isFinishing()) {
-                    new AlertDialog.Builder(LoginActivity.this)
-                            .setTitle("Bad Login!")
-                            .setMessage("Incorrect Username or Password")
-                            .setCancelable(false)
-                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                }
-                            }).show();
-                }
+        runOnUiThread(() -> {
+            if (!isFinishing()) {
+                new AlertDialog.Builder(LoginActivity.this)
+                        .setTitle("Bad Login!")
+                        .setMessage("Incorrect Username or Password")
+                        .setCancelable(false)
+                        .setPositiveButton("OK", (dialog, which) -> {
+                        }).show();
             }
         });
     }
 
     private void configureLoginBtn() {
         Button loginBtn = findViewById(R.id.login_btn);
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        loginBtn.setOnClickListener(v -> {
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .addInterceptor(new BasicAuthInterceptor(usernameInput.getText().toString(),
+                            passwordInput.getText().toString()))
+                    .build();
+            Request request = new Request.Builder().url(UrlHelper.resolveApiEndpoint("/api/user/getCurrentlyLoggedUser")).build();
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    ToastDisplayHelper.displayShortToastMessage("Unspecified server error.", getParent());
+                    e.printStackTrace();
+                }
 
-                OkHttpClient client = new OkHttpClient.Builder()
-                        .addInterceptor(new BasicAuthInterceptor(usernameInput.getText().toString(),
-                                passwordInput.getText().toString()))
-                        .build();
-                final String url = "http://10.0.2.2:8080/api/user/getCurrentlyLoggedUser";
-                Request request = new Request.Builder().url(url).build();
-                client.newCall(request).enqueue(new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-                        System.err.println("call with url " + url + " failed.");
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        if (response.body() != null) {
-                            System.out.println("response: " + response.body().string());
-                            if (response.code() == 401) {
-                                showErrorDialog();
-                            } else {
-                                SecurityContextHolder.username = usernameInput.getText().toString();
-                                SecurityContextHolder.password = passwordInput.getText().toString();
-                                startActivity(new Intent(LoginActivity.this,
-                                        DashBoardActivity.class));
-                            }
+                @Override
+                public void onResponse(Call call, Response response) {
+                    if (response.body() != null) {
+                        if (response.code() != 200) {
+                            showErrorDialog();
                         } else {
-                            System.err.println("Null response body");
+                            SecurityContextHolder.username = usernameInput.getText().toString();
+                            SecurityContextHolder.password = passwordInput.getText().toString();
+                            startActivity(new Intent(LoginActivity.this,
+                                    DashBoardActivity.class));
                         }
                     }
-                });
+                }
+            });
 
-            }
         });
     }
 
-    private TextWatcher textWatcher = new TextWatcher() {
+    private final TextWatcher textWatcher = new TextWatcher() {
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -112,8 +95,6 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         @Override
-        public void afterTextChanged(Editable s) {
-
-        }
+        public void afterTextChanged(Editable s) {}
     };
 }

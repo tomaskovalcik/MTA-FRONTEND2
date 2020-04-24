@@ -60,7 +60,6 @@ public class CreateFaultReportFragment extends Fragment {
             dateOfDiscoveryDialog = new DatePickerDialog(getContext(), this::onDateSet, _day, _month, _year);
             dateOfDiscoveryDialog.show();
         });
-        //TODO validate inputs, uploaded file presence...
         return view;
     }
 
@@ -80,8 +79,11 @@ public class CreateFaultReportFragment extends Fragment {
                     .addFormDataPart("fileToUpload", this.selectedFile.getName(),
                             RequestBody.create(MediaType.parse(FileHelper.getMimeType(this.selectedFile.getAbsolutePath())), this.selectedFile))
                     .build();
-            String url = "http://10.0.2.2:8080/api/uploadedFile/create";
-            Request postRequest = new Request.Builder().post(requestBody).url(url).build();
+            Request postRequest = new Request
+                    .Builder()
+                    .post(requestBody)
+                    .url(UrlHelper.resolveApiEndpoint("api/uploadedFile/create"))
+                    .build();
             client.newCall(postRequest).enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
@@ -121,10 +123,9 @@ public class CreateFaultReportFragment extends Fragment {
         faultReport.setDeviceSerialNumber(serialNumText.getText().toString());
         faultReport.setDateOfDiscovery(selectedDate);
         faultReport.setFaultDescription(faultDescriptionText.getText().toString());
-        String url = "http://10.0.2.2:8080/api/defectReport/create";
         RequestBody faultReportBody = RequestBody.create(MediaType.parse("application/json"),
                 String.valueOf(JsonHelper.toJson(faultReport)));
-        Request postRequest = new Request.Builder().post(faultReportBody).url(url).build();
+        Request postRequest = new Request.Builder().post(faultReportBody).url(UrlHelper.resolveApiEndpoint("/api/defectReport/create")).build();
         client.newCall(postRequest).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {

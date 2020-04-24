@@ -6,26 +6,26 @@
     <group android:checkableBehavior="single">
         <item android:id="@+id/nav_dashboard"
             android:title="@string/dashboard"
-            android:icon="@drawable/ic_launcher_background"/>
+            android:icon="@drawable/ic_home_24px"/>
 
         <item android:title="@string/reorder_item"
-            android:icon="@drawable/ic_launcher_background"
+            android:icon="@drawable/ic_shopping_basket_black_18dp"
             android:id="@+id/nav_reorder_item"/>
         <item
             android:id="@+id/nav_log_faulty_item"
             android:title="@string/log_faulty_item"
-            android:icon="@drawable/ic_launcher_background"/>
+            android:icon="@drawable/ic_feedback_24px"/>
 
-<!--        <item android:title="@string/fault_reports_list"-->
-<!--            android:id="@+id/nav_faultReportList"-->
-<!--            android:icon="@drawable/ic_launcher_background"/>-->
+        <item android:title="@string/fault_reports_list"
+            android:id="@+id/nav_faultReportList"
+            android:icon="@drawable/ic_calendar_view_day_24px"/>
         <item
             android:id="@+id/nav_view_stored_items"
             android:title="@string/view_stored_items"
-            android:icon="@drawable/ic_launcher_background"/>
+            android:icon="@drawable/ic_important_devices_24px"/>
         <item
             android:id="@+id/nav_logout"
             android:title="@string/logout"
-            android:icon="@drawable/ic_launcher_background"/>
+            android:icon="@drawable/ic_open_in_browser_24px"/>
     </group>
 </menu>

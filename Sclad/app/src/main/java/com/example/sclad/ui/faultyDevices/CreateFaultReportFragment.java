@@ -8,18 +8,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-
-import com.example.sclad.ui.DashBoardActivity;
 import com.example.sclad.R;
 import com.example.sclad.Utils.*;
 import com.example.sclad.models.FaultReport;
+import com.example.sclad.ui.DashBoardActivity;
 import okhttp3.*;
 
 import java.io.File;
@@ -31,6 +26,7 @@ public class CreateFaultReportFragment extends Fragment {
     private EditText productNameText;
     private EditText faultDescriptionText;
     private EditText serialNumText;
+    private TextView selectedFileTextView;
     private Button openDateDialog;
     private DatePickerDialog dateOfDiscoveryDialog;
     private Button uploadFileButton;
@@ -50,17 +46,22 @@ public class CreateFaultReportFragment extends Fragment {
         this.submitFaultReportButton = view.findViewById(R.id.submitFaultReportButton);
         this.uploadFileButton = view.findViewById(R.id.uploadFileButton);
         this.openDateDialog = view.findViewById(R.id.openDateDialog);
+        this.selectedFileTextView = view.findViewById(R.id.selectedFileTextView);
         this.uploadFileButton.setOnClickListener(v -> showFileChooser());
         this.submitFaultReportButton.setOnClickListener(v -> submit());
-        this.openDateDialog.setOnClickListener(v -> {
-            LocalDate date = LocalDate.now();
-            int _day = date.getDayOfMonth();
-            int _month = date.getMonthValue() - 1; //compatibility issues with DatePickerDialog interpretation
-            int _year = date.getYear();
-            dateOfDiscoveryDialog = new DatePickerDialog(getContext(), this::onDateSet, _day, _month, _year);
-            dateOfDiscoveryDialog.show();
-        });
+        this.openDateDialog.setOnClickListener(v -> initAndShowDatePopup());
         return view;
+    }
+
+    private void initAndShowDatePopup() {
+        LocalDate date = LocalDate.now();
+        int _day = date.getDayOfMonth();
+        int _month = date.getMonthValue() - 1;
+        int _year = date.getYear();
+        dateOfDiscoveryDialog = new DatePickerDialog(getContext(), this::onDateSet, _day, _month, _year);
+        dateOfDiscoveryDialog.getDatePicker().setMinDate(date.toEpochDay());
+        dateOfDiscoveryDialog.getDatePicker().updateDate(_year, _month, _day);
+        dateOfDiscoveryDialog.show();
     }
 
     private void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -104,6 +105,7 @@ public class CreateFaultReportFragment extends Fragment {
 
     private String verifyInput() {
         if (this.selectedDate == null || this.selectedDate.compareTo(LocalDate.now()) > 0 || this.selectedDate.getYear() < 1999) {
+            initAndShowDatePopup();
             return "Wrong date input!";
         }
         if (this.faultDescriptionText.getText().toString().length() < 10 ||
@@ -112,6 +114,9 @@ public class CreateFaultReportFragment extends Fragment {
         }
         if (this.serialNumText.getText().toString().isEmpty()) {
             return "Serial number field needs to be filled!";
+        }
+        if (this.productNameText.getText().toString().isEmpty()) {
+            return "Product name not filled!";
         }
         return null;
     }
@@ -156,13 +161,8 @@ public class CreateFaultReportFragment extends Fragment {
             chooseFile = Intent.createChooser(chooseFile, "Select a file to upload");
             startActivityForResult(chooseFile, FILE_SELECT_CODE);
         } catch (android.content.ActivityNotFoundException ex) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(getContext(), "Please install a File Manager.",
-                            Toast.LENGTH_SHORT).show();
-                }
-            });
+            getActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Please install a File Manager.",
+                    Toast.LENGTH_SHORT).show());
         }
     }
 
@@ -179,6 +179,13 @@ public class CreateFaultReportFragment extends Fragment {
             }
             if (absoluteFileUri != null && absoluteFileUri.getPath() != null) {
                 this.selectedFile = new File(absoluteFileUri.getPath());
+                getActivity().runOnUiThread(() -> {
+                    this.selectedFileTextView.setText(this.selectedFile.getName());
+                });
+            } else {
+                getActivity().runOnUiThread(() -> {
+                    this.selectedFileTextView.setText("No file selected.");
+                });
             }
         }
     }

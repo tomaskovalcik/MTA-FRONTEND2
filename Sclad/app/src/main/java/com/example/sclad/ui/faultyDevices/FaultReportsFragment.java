@@ -3,13 +3,9 @@ package com.example.sclad.ui.faultyDevices;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DownloadManager;
-import android.content.Context;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,9 +21,12 @@ import com.example.sclad.Utils.ToastDisplayHelper;
 import com.example.sclad.Utils.UrlHelper;
 import com.example.sclad.models.FaultReport;
 import okhttp3.*;
+import okio.BufferedSink;
+import okio.Okio;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -72,21 +71,32 @@ public class FaultReportsFragment extends Fragment {
                     // this will request for permission when user has not granted permission for the app
                     ActivityCompat.requestPermissions(this.getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.INTERNET}, 1);
                 } else {
-                    if (isDownloadManagerAvailable()) {
-                        DownloadManager downloadManager = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
-                        Uri uri = Uri.parse(UrlHelper.resolveApiEndpoint("/api/uploadedFile/downloadByFileName/" + selectedFaultReport.getAttachment().getFileName()));
-                        DownloadManager.Request request = new DownloadManager.Request(uri);
-                        request.setVisibleInDownloadsUi(true);
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                            request.allowScanningByMediaScanner();
-                            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                    Request getRequest = new Request
+                            .Builder()
+                            .get()
+                            .url(UrlHelper.resolveApiEndpoint("/api/uploadedFile/downloadByFileName/" + selectedFaultReport.getAttachment().getFileName()))
+                            .build();
+                    client.newCall(getRequest).enqueue(new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                            ToastDisplayHelper.displayShortToastMessage("Unspecified server error while downloading attachment.", getActivity());
                         }
-                        request.setMimeType(selectedFaultReport.getAttachment().getFileType());
-                        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, uri.getLastPathSegment());
-                        downloadManager.enqueue(request);
-                    }
-                }
 
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            if (response.code() == 200 && response.body() != null) {
+                                File downloadedFile = new File(getContext().getCacheDir(), selectedFaultReport.getAttachment().getFileName());
+                                BufferedSink sink = Okio.buffer(Okio.sink(downloadedFile));
+                                sink.writeAll(response.body().source());
+                                sink.flush();
+                                sink.close();
+                                ToastDisplayHelper.displayShortToastMessage("Downloaded attachment.", getActivity());
+                            } else {
+                                ToastDisplayHelper.displayShortToastMessage("Error while downloading attachment.", getActivity());
+                            }
+                        }
+                    });
+                }
             });
         }
         builder.setNeutralButton("Resolve", (dialog, which) -> {

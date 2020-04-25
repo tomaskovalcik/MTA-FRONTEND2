@@ -3,8 +3,14 @@ package com.example.sclad.Utils;
 import com.example.sclad.models.Device;
 import com.example.sclad.models.FaultReport;
 import com.example.sclad.models.RestockOrder;
+import com.example.sclad.models.UploadedFile;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JsonHelper {
 
@@ -54,5 +60,51 @@ public class JsonHelper {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static Device deviceFromJson(JSONObject deviceJson) {
+        Device device = new Device();
+        try {
+            device.setId(deviceJson.getLong("id"));
+            device.setProductCode(deviceJson.getString("productName"));
+            device.setProductName(deviceJson.getString("productCode"));
+            device.setQuantity(deviceJson.getInt("quantity"));
+            device.setQuantityThreshold(deviceJson.getInt("quantityThreshold"));
+            device.setDeviceType(deviceJson.getString("deviceType"));
+            device.setReordered(deviceJson.getBoolean("reordered"));
+            return device;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static List<FaultReport> faultReportListFromJson(JSONArray jsonArray) {
+        List<FaultReport> list = new ArrayList<>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
+                FaultReport faultReport = new FaultReport();
+                JSONObject object = jsonArray.getJSONObject(i);
+                faultReport.setFaultDescription(object.getString("faultDescription"));
+                faultReport.setDateOfDiscovery(LocalDate.parse(object.getString("dateOfDiscovery")));
+                faultReport.setDeviceSerialNumber(object.getString("deviceSerialNumber"));
+                JSONObject device = object.getJSONObject("device");
+                faultReport.setDevice(deviceFromJson(device));
+                faultReport.setProductName(device.getString("productName"));
+                if (!JSONObject.NULL.equals(object.get("attachment"))) {
+                    JSONObject uploadedFileJson = object.getJSONObject("attachment");
+                    UploadedFile uploadedFile = new UploadedFile();
+                    uploadedFile.setFileName(uploadedFileJson.getString("fileName"));
+                    uploadedFile.setFileType(uploadedFileJson.getString("fileType"));
+                    uploadedFile.setId(uploadedFileJson.getLong("id"));
+                    faultReport.setAttachmentId(uploadedFileJson.getLong("id"));
+                    faultReport.setAttachment(uploadedFile);
+                }
+                list.add(faultReport);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return list;
     }
 }

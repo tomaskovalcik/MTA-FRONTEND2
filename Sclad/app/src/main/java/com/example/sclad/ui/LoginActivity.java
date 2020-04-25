@@ -1,4 +1,4 @@
-package com.example.sclad;
+package com.example.sclad.ui;
 
 import android.app.AlertDialog;
 import android.text.Editable;
@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
+import com.example.sclad.R;
 import com.example.sclad.Utils.BasicAuthInterceptor;
 import com.example.sclad.Utils.SecurityContextHolder;
 import com.example.sclad.Utils.ToastDisplayHelper;

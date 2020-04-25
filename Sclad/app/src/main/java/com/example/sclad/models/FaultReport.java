@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 public class FaultReport {
 
+    private Long id;
+
     private String productName;
 
     private String deviceSerialNumber;
@@ -14,7 +16,19 @@ public class FaultReport {
 
     private Long attachmentId;
 
-    public FaultReport() {}
+    private Device device;
+
+    private UploadedFile attachment;
+
+    public FaultReport() {
+    }
+
+    @Override
+    public String toString() {
+        return
+                productName + ", " +
+                        "Serial number: " + deviceSerialNumber;
+    }
 
     public String getProductName() {
         return productName;
@@ -54,5 +68,29 @@ public class FaultReport {
 
     public void setAttachmentId(Long attachmentId) {
         this.attachmentId = attachmentId;
+    }
+
+    public Device getDevice() {
+        return device;
+    }
+
+    public void setDevice(Device device) {
+        this.device = device;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public UploadedFile getAttachment() {
+        return attachment;
+    }
+
+    public void setAttachment(UploadedFile attachment) {
+        this.attachment = attachment;
     }
 }

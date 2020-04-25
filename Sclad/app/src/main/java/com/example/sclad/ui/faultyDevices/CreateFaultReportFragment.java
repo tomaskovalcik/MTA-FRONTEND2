@@ -16,7 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.sclad.DashBoardActivity;
+import com.example.sclad.ui.DashBoardActivity;
 import com.example.sclad.R;
 import com.example.sclad.Utils.*;
 import com.example.sclad.models.FaultReport;

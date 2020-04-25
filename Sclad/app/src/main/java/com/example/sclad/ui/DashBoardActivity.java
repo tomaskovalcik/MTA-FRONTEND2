@@ -1,4 +1,4 @@
-package com.example.sclad;
+package com.example.sclad.ui;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.sclad.R;
 import com.google.android.material.navigation.NavigationView;
 
 public class DashBoardActivity extends AppCompatActivity {

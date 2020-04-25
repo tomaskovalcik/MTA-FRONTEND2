@@ -76,10 +76,12 @@ public class ListDevicesFragment extends Fragment {
                     .addInterceptor(new BasicAuthInterceptor("admin",
                             "admin"))
                     .build();
-            if (category.equals("all"))
+            if (category.equals("all")) {
                 url = UrlHelper.resolveApiEndpoint("/api/device/all");
-            else
+            } else {
                 url = UrlHelper.resolveApiEndpoint("/api/device/listAllDevicesByType/" + category);
+            }
+            //TODO this should be in JsonHelper
             Request request = new Request.Builder().url(url).build();
             Response response = null;
             try {

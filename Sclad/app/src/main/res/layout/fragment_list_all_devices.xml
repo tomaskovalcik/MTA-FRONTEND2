@@ -7,17 +7,10 @@
     android:orientation="vertical"
     tools:context=".ui.alldevices.ListDevicesFragment">
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="42dp"
-        android:text="@string/select_category" />
-
     <Spinner
         android:id="@+id/categoryList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="37dp"
         app:layout_constraintBottom_toTopOf="@+id/listview_stored_items" />
 
     <ListView

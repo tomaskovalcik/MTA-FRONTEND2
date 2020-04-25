@@ -27,30 +27,33 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView8"/>
+
     <TextView
-            android:id="@+id/textView13"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="36dp"
-            android:text="TextView"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="47dp" app:layout_constraintTop_toBottomOf="@+id/textView12"/>
+        android:id="@+id/defectLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="47dp"
+        android:layout_marginEnd="36dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/restockLabel" />
+
     <TextView
-            android:id="@+id/textView12"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="36dp"
-            android:text="TextView"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="51dp" app:layout_constraintTop_toBottomOf="@+id/textView11"/>
+        android:id="@+id/restockLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="51dp"
+        android:layout_marginEnd="36dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/deviceLabel" />
+
     <TextView
-            android:id="@+id/textView11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:layout_marginEnd="36dp"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="160dp"
-            app:layout_constraintTop_toBottomOf="@+id/welcomingText"/>
+        android:id="@+id/deviceLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="160dp"
+        android:layout_marginEnd="36dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/welcomingText" />
     <TextView
             android:id="@+id/textView8"
             android:layout_width="wrap_content"

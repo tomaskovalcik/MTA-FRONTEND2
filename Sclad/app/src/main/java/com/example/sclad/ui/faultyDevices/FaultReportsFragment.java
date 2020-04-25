@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
@@ -64,22 +65,6 @@ public class FaultReportsFragment extends Fragment {
         if (selectedFaultReport.getAttachmentId() != null) {
 
             builder.setPositiveButton("Download attachment", (dialog, which) -> {
-//                Request request = new Request
-//                        .Builder()
-//                        .get()
-//                        .url(UrlHelper.resolveApiEndpoint("/api/uploadedFile/downloadByFileName/" + selectedFaultReport.getAttachment().getFileName()))
-//                        .build();
-//                client.newCall(request).enqueue(new Callback() {
-//                    @Override
-//                    public void onFailure(Call call, IOException e) {
-//                        ToastDisplayHelper.displayShortToastMessage("Unspecified server error.", getActivity());
-//                    }
-//
-//                    @Override
-//                    public void onResponse(Call call, Response response) throws IOException {
-//                        System.out.println("succ " + response.code());
-//                    }
-//                });
                 if (ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
                         ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
                         ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
@@ -117,9 +102,16 @@ public class FaultReportsFragment extends Fragment {
                 }
 
                 @Override
-                public void onResponse(Call call, Response response) throws IOException {
+                public void onResponse(Call call, Response response) {
                     if (response.code() == 200) {
+                        faultReports.remove(selectedFaultReport);
                         ToastDisplayHelper.displayShortToastMessage("Fault report " + selectedFaultReport.getId() + " successfully resolved.", getActivity());
+                        getActivity().runOnUiThread(() -> {
+                            ((BaseAdapter) faultReportsList.getAdapter()).notifyDataSetChanged();
+                            faultReportsList.invalidateViews();
+                        });
+                    } else {
+                        ToastDisplayHelper.displayShortToastMessage("Could not resolve fault report.", getActivity());
                     }
                 }
             });

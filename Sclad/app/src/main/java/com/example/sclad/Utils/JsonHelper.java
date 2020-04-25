@@ -85,6 +85,7 @@ public class JsonHelper {
             try {
                 FaultReport faultReport = new FaultReport();
                 JSONObject object = jsonArray.getJSONObject(i);
+                faultReport.setId(object.getLong("id"));
                 faultReport.setFaultDescription(object.getString("faultDescription"));
                 faultReport.setDateOfDiscovery(LocalDate.parse(object.getString("dateOfDiscovery")));
                 faultReport.setDeviceSerialNumber(object.getString("deviceSerialNumber"));

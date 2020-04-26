@@ -83,7 +83,7 @@ public class ReorderItemFragment extends Fragment {
                         .addInterceptor(new BasicAuthInterceptor(SecurityContextHolder.username,
                                 SecurityContextHolder.password)).build();
                 Request request = new Request.Builder()
-                        .url(UrlHelper.resolveApiEndpoint("/api/device/getDeviceByProductName" + productName)).build();
+                        .url(UrlHelper.resolveApiEndpoint("/api/device/getDeviceByProductName/" + productName)).build();
                 client.newCall(request).enqueue(new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {

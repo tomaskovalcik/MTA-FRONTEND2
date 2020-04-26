@@ -143,6 +143,12 @@ public class ReorderItemFragment extends Fragment {
                                     .displayShortToastMessage("Device with the selected category does not exist!.", getActivity()));
                             return;
                         }
+
+                        if (device.getReordered()) {
+                            getActivity().runOnUiThread(() -> ToastDisplayHelper
+                                    .displayShortToastMessage("The selected device has been already reordered!.", getActivity()));
+                            return;
+                        }
                         RestockOrder restockOrder = new RestockOrder();
                         restockOrder.setDevice(device);
                         restockOrder.setProductName(device.getProductName());

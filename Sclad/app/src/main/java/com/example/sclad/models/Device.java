@@ -2,7 +2,6 @@ package com.example.sclad.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import org.jetbrains.annotations.NotNull;
 
 public class Device implements Parcelable {
@@ -20,16 +19,6 @@ public class Device implements Parcelable {
     private String deviceType;
 
     private Boolean reordered;
-
-    public Device(Long id, String productName, String productCode, Integer quantity, Integer quantityThreshold, String deviceType, Boolean reordered) {
-        this.id = id;
-        this.deviceType = deviceType;
-        this.productName = productName;
-        this.productCode = productCode;
-        this.quantity = quantity;
-        this.quantityThreshold = quantityThreshold;
-        this.reordered = reordered;
-    }
 
     public Device(String productName, String productCode, Integer quantity, Integer quantityThreshold, Boolean reordered) {
         this.productName = productName;
@@ -113,7 +102,7 @@ public class Device implements Parcelable {
     @NotNull
     @Override
     public String toString() {
-        return this.productName + "\tQuanity: " + this.quantity;
+        return this.productName + "\t Quanity: " + this.quantity;
     }
 
     @Override

@@ -138,7 +138,7 @@ public class CreateFaultReportFragment extends Fragment {
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(Call call, Response response) {
                 if (response.code() == 200 && response.body() != null) {
                     getActivity().runOnUiThread(() -> {
                         ToastDisplayHelper.displayShortToastMessage(
@@ -148,7 +148,7 @@ public class CreateFaultReportFragment extends Fragment {
                     });
                 } else {
                     ToastDisplayHelper.displayShortToastMessage(
-                            "Fault report could not be created due to a server error.", getActivity());
+                            "Device does not exist.", getActivity());
                 }
             }
         });

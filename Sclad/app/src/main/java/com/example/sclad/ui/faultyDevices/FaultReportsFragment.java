@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +14,7 @@ import android.widget.ListView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import com.example.sclad.R;
-import com.example.sclad.Utils.BasicAuthInterceptor;
-import com.example.sclad.Utils.JsonHelper;
-import com.example.sclad.Utils.ToastDisplayHelper;
-import com.example.sclad.Utils.UrlHelper;
+import com.example.sclad.Utils.*;
 import com.example.sclad.models.FaultReport;
 import okhttp3.*;
 import okio.BufferedSink;
@@ -49,8 +45,8 @@ public class FaultReportsFragment extends Fragment {
         this.faultReportsList.setOnItemLongClickListener((parent, view1, position, id) -> {
             showActionsDialog(getActivity(), "Choose action", faultReports.get(position).getFaultDescription(), faultReports.get(position));
             return false;
-
         });
+        this.faultReportsList.setOnItemClickListener(((parent, view1, position, id) -> ToastDisplayHelper.displayShortToastMessage("Long press to see fault report actions", getActivity())));
         return view;
     }
 
@@ -100,37 +96,38 @@ public class FaultReportsFragment extends Fragment {
             });
         }
         builder.setNeutralButton("Resolve", (dialog, which) -> {
-            Request request = new Request
-                    .Builder()
-                    .delete()
-                    .url(UrlHelper.resolveApiEndpoint("/api/defectReport/resolve/" + selectedFaultReport.getId()))
-                    .build();
-            client.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    ToastDisplayHelper.displayShortToastMessage("Unspecified server error.", getActivity());
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) {
-                    if (response.code() == 200) {
-                        faultReports.remove(selectedFaultReport);
-                        ToastDisplayHelper.displayShortToastMessage("Fault report " + selectedFaultReport.getId() + " successfully resolved.", getActivity());
-                        getActivity().runOnUiThread(() -> {
-                            ((BaseAdapter) faultReportsList.getAdapter()).notifyDataSetChanged();
-                            faultReportsList.invalidateViews();
-                        });
-                    } else {
-                        ToastDisplayHelper.displayShortToastMessage("Could not resolve fault report.", getActivity());
+            if (SecurityContextHolder.getCurrentUsersRole().equals("ROLE_ADMIN")) {
+                Request request = new Request
+                        .Builder()
+                        .delete()
+                        .url(UrlHelper.resolveApiEndpoint("/api/defectReport/resolve/" + selectedFaultReport.getId()))
+                        .build();
+                client.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        ToastDisplayHelper.displayShortToastMessage("Unspecified server error.", getActivity());
                     }
-                }
-            });
-        });
-        builder.show();
-    }
 
-    private static boolean isDownloadManagerAvailable() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD;
+                    @Override
+                    public void onResponse(Call call, Response response) {
+                        if (response.code() == 200) {
+                            faultReports.remove(selectedFaultReport);
+                            ToastDisplayHelper.displayShortToastMessage("Fault report " + selectedFaultReport.getId() + " successfully resolved.", getActivity());
+                            getActivity().runOnUiThread(() -> {
+                                ((BaseAdapter) faultReportsList.getAdapter()).notifyDataSetChanged();
+                                faultReportsList.invalidateViews();
+                            });
+                        } else {
+                            ToastDisplayHelper.displayShortToastMessage("Could not resolve fault report.", getActivity());
+                        }
+                    }
+                });
+            } else {
+                ToastDisplayHelper.displayShortToastMessage("Only administrator can perform this action!", getActivity());
+            }
+        });
+
+        builder.show();
     }
 
     private void populateList() {

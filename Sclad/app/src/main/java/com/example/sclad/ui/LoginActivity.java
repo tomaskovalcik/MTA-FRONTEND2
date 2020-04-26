@@ -1,15 +1,13 @@
 package com.example.sclad.ui;
 
 import android.app.AlertDialog;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.widget.EditText;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.Button;
-
+import android.widget.EditText;
+import androidx.appcompat.app.AppCompatActivity;
 import com.example.sclad.R;
 import com.example.sclad.Utils.BasicAuthInterceptor;
 import com.example.sclad.Utils.SecurityContextHolder;
@@ -36,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
         passwordInput.addTextChangedListener(textWatcher);
         loginBtn = findViewById(R.id.login_btn);
         loginBtn.setEnabled(false);
+        loginBtn.setAlpha(.5f);
     }
 
     public void showErrorDialog() {
@@ -74,6 +73,7 @@ public class LoginActivity extends AppCompatActivity {
                         } else {
                             SecurityContextHolder.username = usernameInput.getText().toString();
                             SecurityContextHolder.password = passwordInput.getText().toString();
+
                             startActivity(new Intent(LoginActivity.this,
                                     DashBoardActivity.class));
                         }
@@ -92,7 +92,10 @@ public class LoginActivity extends AppCompatActivity {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             String input = usernameInput.getText().toString().trim();
             String passInput = passwordInput.getText().toString().trim();
-            loginBtn.setEnabled(!input.isEmpty() && !passInput.isEmpty());
+            if (!input.isEmpty() && !passInput.isEmpty() && passInput.length() >= 3) {
+                loginBtn.setEnabled(true);
+                loginBtn.setAlpha(1);
+            }
         }
 
         @Override

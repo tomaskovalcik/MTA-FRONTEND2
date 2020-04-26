@@ -104,7 +104,7 @@ public class CreateFaultReportFragment extends Fragment {
     }
 
     private String verifyInput() {
-        if (this.selectedDate == null || this.selectedDate.compareTo(LocalDate.now()) > 0 || this.selectedDate.getYear() < 1999) {
+        if (this.selectedDate == null || this.selectedDate.plusMonths(1).compareTo(LocalDate.now()) > 0 || this.selectedDate.getYear() < 1999) {
             initAndShowDatePopup();
             return "Wrong date input!";
         }
@@ -126,7 +126,7 @@ public class CreateFaultReportFragment extends Fragment {
         faultReport.setAttachmentId(attachmentId);
         faultReport.setProductName(productNameText.getText().toString());
         faultReport.setDeviceSerialNumber(serialNumText.getText().toString());
-        faultReport.setDateOfDiscovery(selectedDate);
+        faultReport.setDateOfDiscovery(selectedDate.plusMonths(1));
         faultReport.setFaultDescription(faultDescriptionText.getText().toString());
         RequestBody faultReportBody = RequestBody.create(MediaType.parse("application/json"),
                 String.valueOf(JsonHelper.toJson(faultReport)));
